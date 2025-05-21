@@ -27,11 +27,15 @@ Este programa permite registrar proyectos de construcción usando una interfaz g
 ## Estructura del proyecto
 
 proyectos_construccion/
-├── data/ # Contiene el archivo registros.csv
-├── src/ # Código fuente principal del programa
-├── .gitignore # Archivos a ignorar por Git
-├── README.md # Este archivo
-└── requirements.txt # Librerías necesarias para ejecutar
+├── data/                # Contiene el archivo proyectos.csv
+│   └── proyectos.csv
+├── src/                 # Código fuente principal del programa
+│   ├── app.py           # Archivo principal que ejecuta la interfaz gráfica
+│   └── logica.py        # Funciones auxiliares para registrar, cargar, eliminar y ver proyectos
+├── .gitignore           # Archivos a ignorar por Git
+├── README.md            # Este archivo
+└── requirements.txt     # Librerías necesarias para ejecutar
+
 
 
 ---
