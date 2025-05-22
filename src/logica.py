@@ -18,19 +18,29 @@ def registrar_proyecto(nombre, longitud): # Necesito pedir el nombre y la longit
     angulo_radianes = math.radians(angulo) # Paso a radianes
     resultado = math.tan(angulo_radianes) * longitud # Calculo el resultado
 
-    fila = {
-        'nombre': nombre,
+    # Este diccionario se convertira en una fila de la base de datos
+    fila = { 
+        'nombre': nombre, # El nombre que pedimos a traves de la GUI
         'angulo': round(angulo, 2),
-        'longitud': longitud,
+        'longitud': longitud, # La longitud que pedimos a traves de la GUI
         'resultado': round(resultado, 2)
     }
 
+    # Comprobamos si el archivo existe
     archivo_existe = os.path.isfile(ARCHIVO_CSV)
-
+    
+    # Abrimos el archivo en modo 'a' (append) para agregar contenido al final sin borrar lo anterior
+    # newline='' evita que se agreguen lineas en blanco entre registros en algunos sistemas
     with open(ARCHIVO_CSV, mode='a', newline='') as f:
-        writer = csv.DictWriter(f, fieldnames=fila.keys())
+        
+        # Creamos un escritor CSV que usará las claves del diccionario 'fila' como nombres de las columnas
+        writer = csv.DictWriter(f, fieldnames=fila.keys()) # fila.keys saca dict_keys(['nombre', 'angulo', 'longitud', 'resultado'])
+        
+        # Si el archivo aún no existia, escribimos los encabezados (nombres de columnas) antes de la primera fila
         if not archivo_existe:
-            writer.writeheader()
+            writer.writeheader() #dict_keys(['nombre', 'angulo', 'longitud', 'resultado'])
+
+        # Escribimos la fila con los datos del proyecto como una nueva línea en el archivo CSV.
         writer.writerow(fila)
 
 
@@ -74,8 +84,8 @@ def eliminar_proyecto(indice): # Se requiere el indice
     if 0 <= indice < len(df): # Comprobamos que el indicie se encuentre en el rango de indice existentes
         # Elimino la fila por el indice y reacomodo indices
         df.drop(index=indice).reset_index(drop=True) # https://www.datacamp.com/es/tutorial/pandas-reset-index-tutorial
-        # Sobrescribo el csv
-        df.to_csv(ARCHIVO_CSV, index=False) #
+        # Sobrescribo el csv para guardarlo
+        df.to_csv(ARCHIVO_CSV, index=False) # https://www.freecodecamp.org/espanol/news/dataframe-a-csv-como-guardar-pandas-dataframes-exportando/
         return True
     else:
         return False
