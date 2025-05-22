@@ -15,8 +15,8 @@ def registrar_proyecto(nombre, longitud):
     - Guarda los datos en el archivo.
     """
     angulo = random.uniform(30, 60)  # Ángulo en grados
-    angulo_radianes = math.radians(angulo)
-    resultado = math.tan(angulo_radianes) * longitud
+    angulo_radianes = math.radians(angulo) # Paso a radianes
+    resultado = math.tan(angulo_radianes) * longitud # Calculo el resultado
 
     fila = {
         'nombre': nombre,
@@ -38,9 +38,32 @@ def registrar_proyecto(nombre, longitud):
 def cargar_proyectos():
     """
     Carga y devuelve todos los proyectos almacenados en el CSV.
-    Si el archivo no existe, devuelve un DataFrame vacío.
+    Si el archivo no existe, devuelve un DataFrame vacío y capturamos el error.
     """
-    if os.path.isfile(ARCHIVO_CSV):
+    try:
         return pd.read_csv(ARCHIVO_CSV)
-    else:
+    # Capturo el error de no encontrar el archivo
+    except FileNotFoundError:
         return pd.DataFrame(columns=['nombre', 'angulo', 'longitud', 'resultado'])
+
+
+def ver_proyecto(indice):
+    """
+    Devuelve los datos del proyecto ubicado en la fila 'indice'.
+    Si el índice no existe, retorna None.
+    """
+    # Cargamos los datos
+    df = cargar_proyectos()
+    
+    if 0 <= indice < len(df):
+        # Seleccionamos todas las columnas de la fila indice
+        fila = df.iloc[indice] # https://www.analyticslane.com/2019/06/21/seleccionar-filas-y-columnas-en-pandas-con-iloc-y-loc/
+        # Convertimos en diccionario
+        return fila.to_dict() #https://www-geeksforgeeks-org.translate.goog/pandas-dataframe-to_dict/?_x_tr_sl=en&_x_tr_tl=es&_x_tr_hl=es&_x_tr_pto=tc
+    else:
+        None
+        
+    
+    
+    
+    
