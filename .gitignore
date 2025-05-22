@@ -1,0 +1,17 @@
+# Archivos compilados por Python
+__pycache__/
+.py[cod]
+.pyo
+.pyd
+.pyc
+
+# Entornos virtuales
+env/
+.venv/
+.aprendiendo_conda/
+
+# Archivos de configuración de VS Code
+.vscode/
+
+# Archivos temporales o de sistema
+.DS_Store
