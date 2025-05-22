@@ -17,31 +17,39 @@ class App(tk.Tk): # Hereda la clase tk.Tk
         self.title("Registro de Proyectos de Construcción")
         self.geometry("500x300")
         self.resizable(True, True)
+        
+        self.configure(bg="#f5f5f5") # Color de fonod
 
         self.configurar_grid()
         self.crear_widgets()
         
         
     def configurar_grid(self):
-        pass  # Aquí se va a definir el grid en la próximamente
+        # Queremos 4 filas que se expandan proporcionalmente
+        for i in range(4):
+            self.grid_rowconfigure(i, weight=1)
+
+        # Solo una columna que también se expanda
+        self.grid_columnconfigure(0, weight=1)
+        
 
 
     def crear_widgets(self):
-        # Boton para registrar nuevo proyecto
-        boton_registrar = tk.Button(self, text="Registrar Proyecto", command=self.abrir_formulario_registro) # Al hacer click se dirige a abrir_formulario_registro
-        boton_registrar.grid(row=0, column=0, padx=10, pady=10, sticky="ew") # http://acodigo.blogspot.com/2017/03/tkinter-grid.html#google_vignette
-        
+        # Botón para registrar nuevo proyecto
+        boton_registrar = tk.Button(self, text="Registrar Proyecto", command=self.abrir_formulario_registro)
+        boton_registrar.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")  # http://acodigo.blogspot.com/2017/03/tkinter-grid.html#google_vignette
+
         # Botón para ver un proyecto
         btn_ver = tk.Button(self, text="Ver proyecto", command=self.abrir_formulario_ver)
-        btn_ver.grid(row=1, column=0, padx=10, pady=10)
-        
-        # Boton para eliminar un proyecto
-        btn_eliminar = tk.Button(self, text="Eliminar proyecto", command=self.abrir_formulario_eliminar)
-        btn_eliminar.grid(row=2, column=0, padx=10, pady=10)
+        btn_ver.grid(row=1, column=0, padx=10, pady=10, sticky="nsew")
 
-        # Boton para actualizar un proyecto
+        # Botón para eliminar un proyecto
+        btn_eliminar = tk.Button(self, text="Eliminar proyecto", command=self.abrir_formulario_eliminar)
+        btn_eliminar.grid(row=2, column=0, padx=10, pady=10, sticky="nsew")
+
+        # Botón para actualizar un proyecto
         btn_actualizar = tk.Button(self, text="Actualizar proyecto", command=self.abrir_formulario_actualizar)
-        btn_actualizar.grid(row=3, column=0, padx=10, pady=10)
+        btn_actualizar.grid(row=3, column=0, padx=10, pady=10, sticky="nsew")
 
 
     
