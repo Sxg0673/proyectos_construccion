@@ -6,7 +6,8 @@ from logica import (
     registrar_proyecto,
     cargar_proyectos,
     ver_proyecto,
-    eliminar_proyecto
+    eliminar_proyecto,
+    actualizar_proyecto
 )
 
 class App(tk.Tk): # Hereda la clase tk.Tk
@@ -37,6 +38,10 @@ class App(tk.Tk): # Hereda la clase tk.Tk
         # Boton para eliminar un proyecto
         btn_eliminar = tk.Button(self, text="Eliminar proyecto", command=self.abrir_formulario_eliminar)
         btn_eliminar.grid(row=2, column=0, padx=10, pady=10)
+
+        # Boton para actualizar un proyecto
+        btn_actualizar = tk.Button(self, text="Actualizar proyecto", command=self.abrir_formulario_actualizar)
+        btn_actualizar.grid(row=3, column=0, padx=10, pady=10)
 
 
     
@@ -125,6 +130,59 @@ class App(tk.Tk): # Hereda la clase tk.Tk
                 messagebox.showerror("Error", "Ingrese un número válido.")
 
         tk.Button(ventana_eliminar, text="Eliminar", command=eliminar).grid(row=1, column=0, columnspan=2, pady=10)
+
+    def abrir_formulario_actualizar(self):
+        ventana_actualizar = tk.Toplevel(self)
+        ventana_actualizar.title("Actualizar Proyecto")
+
+        # Entrada de índice
+        tk.Label(ventana_actualizar, text="Índice del proyecto:").grid(row=0, column=0, padx=5, pady=5)
+        entrada_indice = tk.Entry(ventana_actualizar)
+        entrada_indice.grid(row=0, column=1, padx=5, pady=5)
+
+        # Campos que se llenaran automáticamente si el indice es válido
+        tk.Label(ventana_actualizar, text="Nuevo nombre:").grid(row=1, column=0, padx=5, pady=5)
+        entrada_nombre = tk.Entry(ventana_actualizar)
+        entrada_nombre.grid(row=1, column=1, padx=5, pady=5)
+
+        tk.Label(ventana_actualizar, text="Nueva longitud:").grid(row=2, column=0, padx=5, pady=5)
+        entrada_longitud = tk.Entry(ventana_actualizar)
+        entrada_longitud.grid(row=2, column=1, padx=5, pady=5)
+
+        def cargar_datos():
+            try:
+                idx = int(entrada_indice.get()) # Toma el indice del que queremos ver los valores
+                proyecto = ver_proyecto(idx) # Entregamos el indice a ver_proyecto
+                if proyecto: # Si esta en proyecto entonces:
+                    entrada_nombre.delete(0, tk.END) # Borramos lo que teniamos en la entrada de nombre
+                    entrada_nombre.insert(0, proyecto["nombre"]) # Incertamos el nombre de ese indice
+                    entrada_longitud.delete(0, tk.END) # Borramos el campo de longitud
+                    entrada_longitud.insert(0, str(proyecto["longitud"])) # Insertamos la longitud del indice indicado
+                else:
+                    messagebox.showerror("Error", "Índice fuera de rango.") # Si pone un indice que no existe
+            except ValueError:
+                messagebox.showerror("Error", "Ingrese un número válido.") # Si pone algo que no sea numero
+
+        def actualizar():
+            try:
+                idx = int(entrada_indice.get()) # Tomamos el indice
+                nombre = entrada_nombre.get().strip() # https://www-geeksforgeeks-org.translate.goog/python-string-strip/?_x_tr_sl=en&_x_tr_tl=es&_x_tr_hl=es&_x_tr_pto=rq
+                longitud = float(entrada_longitud.get()) # Tomamos tanto el nombre como la longitud
+
+                if nombre == "": # Hacemos manejo de errores
+                    messagebox.showerror("Error", "El nombre no puede estar vacio.")
+                    return
+
+                if actualizar_proyecto(idx, nombre, longitud): # Usamos actualizar_proyecto de logica.py
+                    messagebox.showinfo("Exito", "Proyecto actualizado correctamente.")
+                    ventana_actualizar.destroy()
+                else:
+                    messagebox.showerror("Error", "Indice fuera de rango.") 
+            except ValueError:
+                messagebox.showerror("Error", "Ingrese valores validos.")
+
+        tk.Button(ventana_actualizar, text="Cargar", command=cargar_datos).grid(row=3, column=0, pady=10)
+        tk.Button(ventana_actualizar, text="Actualizar", command=actualizar).grid(row=3, column=1, pady=10)
 
 
 if __name__ == "__main__": # https://www.youtube.com/watch?v=wZKTUcTqekw
