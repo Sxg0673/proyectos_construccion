@@ -83,7 +83,7 @@ def eliminar_proyecto(indice): # Se requiere el indice
     
     if 0 <= indice < len(df): # Comprobamos que el indicie se encuentre en el rango de indice existentes
         # Elimino la fila por el indice y reacomodo indices
-        df.drop(index=indice).reset_index(drop=True) # https://www.datacamp.com/es/tutorial/pandas-reset-index-tutorial
+        df = df.drop(index=indice).reset_index(drop=True) # https://www.datacamp.com/es/tutorial/pandas-reset-index-tutorial
         # Sobrescribo el csv para guardarlo
         df.to_csv(ARCHIVO_CSV, index=False) # https://www.freecodecamp.org/espanol/news/dataframe-a-csv-como-guardar-pandas-dataframes-exportando/
         return True
