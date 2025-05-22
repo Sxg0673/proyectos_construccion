@@ -80,18 +80,20 @@ class App(tk.Tk): # Hereda la clase tk.Tk
 
         def mostrar():
             try:
-                idx = int(entrada_indice.get())
-                proyecto = ver_proyecto(idx)
-                if proyecto:
-                    texto.delete('1.0', tk.END)
-                    for k, v in proyecto.items():
-                        texto.insert(tk.END, f"{k}: {v}\n")
+                idx = int(entrada_indice.get()) # Recibimos el indice
+                proyecto = ver_proyecto(idx) # Le enviamos el indice a ver_proyecto en logica.py
+                if proyecto: # Si lo encuentra
+                    texto.delete('1.0', tk.END) # Borramos lo que teniamos en texto si habia algo
+                    #Para cada par clave-valor en el diccionario proyecto, guarda la clave en k y el valor en v, y repite
+                    for k, v in proyecto.items(): # .items devuelve una lista de pares clave-valor
+                        # tk.END va llevando todo al final a medida que se agrega algo
+                        texto.insert(tk.END, f"{k}: {v}\n") # Inserta el par clave-valor
                 else:
-                    messagebox.showerror("Error", "Índice no válido.")
+                    messagebox.showerror("Error", "Índice no válido.") # No encontro el indice
             except ValueError:
-                messagebox.showerror("Error", "Ingrese un número válido.")
+                messagebox.showerror("Error", "Ingrese un número válido.") # No puso un numero
 
-        tk.Button(ventana_ver, text="Buscar", command=mostrar).grid(row=1, column=0, columnspan=2, pady=5)
+        tk.Button(ventana_ver, text="Buscar", command=mostrar).grid(row=1, column=0, columnspan=2, pady=5) # Boton para buscar el indice y mostrar los datos
 
 
 if __name__ == "__main__": # https://www.youtube.com/watch?v=wZKTUcTqekw
