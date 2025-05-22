@@ -7,7 +7,7 @@ import pandas as pd
 # Ruta del archivo CSV que almacenará los proyectos
 ARCHIVO_CSV = 'data/proyectos.csv'
 
-def registrar_proyecto(nombre, longitud):
+def registrar_proyecto(nombre, longitud): # Necesito pedir el nombre y la longitud del proyecto
     """
     Registra un nuevo proyecto de construcción en el archivo CSV.
     - Genera un ángulo aleatorio entre 30° y 60°.
@@ -41,13 +41,12 @@ def cargar_proyectos():
     Si el archivo no existe, devuelve un DataFrame vacío y capturamos el error.
     """
     try:
-        return pd.read_csv(ARCHIVO_CSV)
-    # Capturo el error de no encontrar el archivo
-    except FileNotFoundError:
-        return pd.DataFrame(columns=['nombre', 'angulo', 'longitud', 'resultado'])
+        return pd.read_csv(ARCHIVO_CSV) # Intento cargar los datos
+    except FileNotFoundError: # Capturo el error de no encontrar el archivo
+        return pd.DataFrame(columns=['nombre', 'angulo', 'longitud', 'resultado']) # Si no se puede devuelvo un DataFrame vacio
 
 
-def ver_proyecto(indice):
+def ver_proyecto(indice): # Se requiere el indice
     """
     Devuelve los datos del proyecto ubicado en la fila 'indice'.
     Si el índice no existe, retorna None.
@@ -55,7 +54,7 @@ def ver_proyecto(indice):
     # Cargamos los datos
     df = cargar_proyectos()
     
-    if 0 <= indice < len(df):
+    if 0 <= indice < len(df): # Compruebo que el indice se encuentre en el rango de indices existentes
         # Seleccionamos todas las columnas de la fila indice
         fila = df.iloc[indice] # https://www.analyticslane.com/2019/06/21/seleccionar-filas-y-columnas-en-pandas-con-iloc-y-loc/
         # Convertimos en diccionario
@@ -63,7 +62,20 @@ def ver_proyecto(indice):
     else:
         None
         
+
+def eliminar_proyecto(indice): # Se requiere el indice
+    """
+    Elimina el proyecto ubicado en la posición 'indice'.
+    Retorna True si fue eliminado, False si el índice no existe.
+    """
+    # Cargamos los datos
+    df = cargar_proyectos()
     
-    
-    
-    
+    if 0 <= indice < len(df): # Comprobamos que el indicie se encuentre en el rango de indice existentes
+        # Elimino la fila por el indice y reacomodo indices
+        df.drop(index=indice).reset_index(drop=True) # https://www.datacamp.com/es/tutorial/pandas-reset-index-tutorial
+        # Sobrescribo el csv
+        df.to_csv(ARCHIVO_CSV, index=False) #
+        return True
+    else:
+        return False
