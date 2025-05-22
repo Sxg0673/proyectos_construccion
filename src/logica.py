@@ -89,3 +89,26 @@ def eliminar_proyecto(indice): # Se requiere el indice
         return True
     else:
         return False
+
+
+def actualizar_proyecto(indice, nuevo_nombre, nueva_longitud):
+    """
+    Actualiza los datos de un proyecto dado su índice.
+    """
+    df = cargar_proyectos()
+
+    if 0 <= indice < len(df):
+        angulo = random.uniform(30, 60)
+        angulo_rad = math.radians(angulo)
+        resultado = math.tan(angulo_rad) * nueva_longitud
+
+        # https://www.geeksforgeeks.org/python-pandas-dataframe-at/
+        df.at[indice, 'nombre'] = nuevo_nombre # Con df.at actualizamos un valor exacto
+        df.at[indice, 'angulo'] = round(angulo, 2)
+        df.at[indice, 'longitud'] = nueva_longitud
+        df.at[indice, 'resultado'] = round(resultado, 2)
+
+        df.to_csv(ARCHIVO_CSV, index=False)
+        return True
+    else:
+        return False

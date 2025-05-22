@@ -33,6 +33,11 @@ class App(tk.Tk): # Hereda la clase tk.Tk
         # Botón para ver un proyecto
         btn_ver = tk.Button(self, text="Ver proyecto", command=self.abrir_formulario_ver)
         btn_ver.grid(row=1, column=0, padx=10, pady=10)
+        
+        # Boton para eliminar un proyecto
+        btn_eliminar = tk.Button(self, text="Eliminar proyecto", command=self.abrir_formulario_eliminar)
+        btn_eliminar.grid(row=2, column=0, padx=10, pady=10)
+
 
     
     def abrir_formulario_registro(self):
@@ -95,7 +100,34 @@ class App(tk.Tk): # Hereda la clase tk.Tk
 
         tk.Button(ventana_ver, text="Buscar", command=mostrar).grid(row=1, column=0, columnspan=2, pady=5) # Boton para buscar el indice y mostrar los datos
 
+    def abrir_formulario_eliminar(self):
+        ventana_eliminar = tk.Toplevel(self) # Ventana secundaria
+        ventana_eliminar.title("Eliminar Proyecto")
+
+        # Campo para ingresar el índice
+        tk.Label(ventana_eliminar, text="Índice a eliminar:").grid(row=0, column=0, padx=5, pady=5)
+        entrada_indice = tk.Entry(ventana_eliminar)
+        entrada_indice.grid(row=0, column=1, padx=5, pady=5)
+
+        def eliminar():
+            try:
+                idx = int(entrada_indice.get()) # Obtiene el indice
+                proyecto = ver_proyecto(idx) 
+                if proyecto:
+                    confirmacion = messagebox.askyesno("Confirmar", f"¿Estás seguro de eliminar el proyecto '{proyecto['nombre']}'?")
+                    if confirmacion:
+                        eliminar_proyecto(idx)
+                        messagebox.showinfo("Eliminado", "Proyecto eliminado correctamente.")
+                        ventana_eliminar.destroy()
+                else:
+                    messagebox.showerror("Error", "Índice fuera de rango.")
+            except ValueError:
+                messagebox.showerror("Error", "Ingrese un número válido.")
+
+        tk.Button(ventana_eliminar, text="Eliminar", command=eliminar).grid(row=1, column=0, columnspan=2, pady=10)
+
 
 if __name__ == "__main__": # https://www.youtube.com/watch?v=wZKTUcTqekw
     app = App() # Inicializamos la clase App
     app.mainloop()
+    
