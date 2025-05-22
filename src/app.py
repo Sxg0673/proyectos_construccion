@@ -9,7 +9,13 @@ from logica import (
     eliminar_proyecto
 )
 
-class App(tk.Tk):
+class App(tk.Tk): # Hereda la clase tk.Tk
     def __init__(self):
-        pass
+        super().__init__()
 
+        self.title("Registro de Proyectos de Construcción")
+        self.geometry("500x300")
+        self.resizable(True, True)
+
+        self.configurar_grid()
+        self.crear_widgets()
